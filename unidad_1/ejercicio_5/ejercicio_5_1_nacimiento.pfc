@@ -1,0 +1,48 @@
+program ejercicio_5_1_nacimiento;
+
+process type pairs(quantity: integer; var s: semaphore);
+var
+    i, number: integer;
+begin
+    number := 2;
+    for i := 1 to quantity do
+    begin
+        wait(s);
+        writeln('Par generado: ', number);
+        signal(s);
+        number := number + 2;
+    end;
+end;
+
+process type odd(quantity: integer; var s: semaphore);
+var
+    i, number: integer;
+begin
+    number := 1;
+    for i := 1 to quantity do
+    begin
+        wait(s);
+        writeln('Impar generado: ', number);
+        signal(s);
+        number := number + 2;
+    end;
+end;
+
+var
+    p1, p2: pairs;
+    p3: odd;
+    quantityPairs, quantityOdd: integer;
+    s: semaphore;
+begin
+    initial(s, 1);
+    write('Ingrese la cantidad de numeros pares: ');
+	readln(quantityPairs);
+	write('Ingrese la cantidad de nros impares: ');
+	readln(quantityOdd);
+    writeln('------------GO----------');
+    cobegin
+        p1(quantityPairs, s);
+        p2(quantityPairs, s);
+        p3(quantityOdd, s);
+    coend;
+end.
