@@ -1,0 +1,61 @@
+
+program ejercicio_5_1_zarske;
+
+process type pares (i: integer; var s: semaphore);
+var
+	aux: integer;
+	cant: integer;
+begin
+	aux:= 1;
+	cant:= 0;
+	while cant <> i do
+	begin
+	  if (aux mod 2) = 0 then
+	  begin
+        wait(s);
+	    write(' | ', aux);
+        signal(s);
+	    cant:= cant + 1;
+	  end;
+	  aux:= aux + 1;
+	end;
+end;
+
+process type impares (i: integer; var s: semaphore);
+var
+	aux: integer;
+	cant: integer;
+begin
+	aux:= 1;
+	cant:= 0;
+	while cant <> i do
+	begin
+	  if (aux mod 2) <> 0 then
+	  begin
+        wait(s);
+	    write(' | ', aux);
+        signal(s);
+	    cant:= cant + 1;
+	  end;
+	  aux:= aux + 1;
+	end;
+end;
+
+var
+	p1 , p2 : pares;
+	p3 : impares;
+	Xpares : integer;
+	Yimpares : integer;
+    s: semaphore;
+
+begin
+    initial(s, 1);
+	Xpares := 5;
+	Yimpares := 8;
+
+	cobegin
+		p1 (Xpares, s);
+		p2 (Xpares, s);
+		p3 (Yimpares, s);
+	coend;
+end.
