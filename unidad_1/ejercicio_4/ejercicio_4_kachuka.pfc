@@ -1,0 +1,62 @@
+program ejercicio_4_kachuka ;
+const LNG = 9 ;
+type
+    vector = array [0..LNG] of integer ;
+
+var
+    v1,v2 : vector ;
+    resultadoFinal : integer ;
+
+procedure cargarVectores;
+var
+    i: integer ;
+begin
+    i := 0 ;
+    while (i <= LNG) do
+    begin
+        v1[i] := i + 1;
+        v2[i] := i * i ;
+        i := i+1; 
+    end;
+    writeln('Vector 1:') ;
+    for i := 0 to LNG do
+    begin
+        write(v1[i], '-') ;
+    end;
+    writeln(' ');
+    writeln('Vector 2:') ;
+    for i := 0 to LNG do
+    begin
+        write(v2[i], '-') ;
+    end;
+    writeln(' ');
+end;
+
+process type productoEscalar(inicioRango: integer; finRango: integer; var s : semaphore);
+var
+    producto , i: integer;
+begin
+    for i := inicioRango to finRango do
+    begin
+        producto := v1[i] * v2[i] ;
+        wait(s) ;
+        resultadoFinal := resultadoFinal + producto ;
+        writeln(v1[i], ' * ', v2[i], ' = ' , producto);
+        signal(s); 
+    end;
+end;
+
+var
+    p1, p2: productoEscalar;
+    sem : semaphore ;
+
+begin
+    initial(sem, 1);
+    resultadoFinal := 0 ;
+    cargarVectores;
+    cobegin
+        p1(0,4,sem);
+        p2(5,9,sem);
+    coend;
+    writeln('El producto escalar es: ', resultadoFinal);
+end.
