@@ -1,43 +1,33 @@
 
 program ejercicio_5_1_zarske;
 
-process type pares (i: integer; var s: semaphore);
+process type pares (cant: integer; var s: semaphore);
 var
 	aux: integer;
-	cant: integer;
+	inicio: integer;
 begin
-	aux:= 1;
-	cant:= 0;
-	while cant <> i do
+	inicio:= 2;
+	for aux:=1 to cant do
 	begin
-	  if (aux mod 2) = 0 then
-	  begin
-        wait(s);
-	    write(' | ', aux);
-        signal(s);
-	    cant:= cant + 1;
-	  end;
-	  aux:= aux + 1;
+		wait(s);
+		write(' | ', inicio);
+		signal(s);
+		inicio := inicio + 2;
 	end;
 end;
 
-process type impares (i: integer; var s: semaphore);
+process type impares (cant: integer; var s: semaphore);
 var
 	aux: integer;
-	cant: integer;
+	inicio: integer;
 begin
-	aux:= 1;
-	cant:= 0;
-	while cant <> i do
+	inicio:= 1;
+	for aux:=1 to cant do
 	begin
-	  if (aux mod 2) <> 0 then
-	  begin
-        wait(s);
-	    write(' | ', aux);
-        signal(s);
-	    cant:= cant + 1;
-	  end;
-	  aux:= aux + 1;
+		wait(s);
+		write(' | ', inicio);
+		signal(s);
+		inicio := inicio + 2;
 	end;
 end;
 
