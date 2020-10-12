@@ -1,0 +1,22 @@
+(*El programa imprime el Id de los 
+* procesos. El orden de ejecución es 
+* aleatorio, ya que no existe ningún tipo
+* de sincronización.
+*)
+program ejercicio_1;
+
+process type printId(rango:integer);
+begin
+  writeln('Soy el proceso ', rango);
+end;
+
+var
+  p1, p2, p3, p4: printId;
+begin 
+  cobegin
+    p1(1);
+    p2(2);
+    p3(3);
+    p4(4);
+  coend;
+end.
