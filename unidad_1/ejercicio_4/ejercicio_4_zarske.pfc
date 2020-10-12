@@ -1,0 +1,71 @@
+program ejercicio_4_zarske;
+
+const PROC = 2; {cantidad de procesadores menos uno}
+const LNG = 9; {cantidad de numeros del vectos menos uno}
+
+var
+    vector1, vector2 : array[0..LNG] of integer; 
+    resultado:integer;
+    sem: semaphore;
+
+
+process type calculo(inicio:integer; final:integer; var s:semaphore);
+var
+    x:integer;
+    semitotal: integer;
+    aux: integer;
+begin
+    semitotal:= 0;
+	for	x:=inicio to final do
+	begin
+        aux:= vector1[x] * vector2[x];
+        semitotal:= semitotal + aux;
+        
+	end;
+    wait(s);
+    writeln('Termino trabajo de un proceso, suma de su parte: ',semitotal);
+    resultado:= resultado + semitotal;
+    signal(s);
+end;
+
+var
+  contentProcess:array[0..PROC] of calculo; 
+  cantNumxP: integer;
+  valorInicio: array[0..PROC] of integer;
+  valorFinal: array[0..PROC] of integer;
+  x:integer;
+
+
+begin
+    resultado:= 0;
+    for x:=0 to LNG do
+    begin
+        vector2[x]:= random(30);
+        vector1[x]:= random(30);
+    end;
+
+
+
+
+    cantNumxP:= (LNG+1) div (PROC + 1);
+    valorInicio[0]:= 0;
+    valorFinal[0]:= valorInicio[0] + cantNumxP -1;
+
+    for	x:=1 to PROC do
+    begin
+        valorInicio[x]:= valorFinal[x-1] + 1;
+        valorFinal[x]:= valorInicio[x] + cantNumxP -1;
+    end;
+    valorFinal[PROC]:= LNG;
+    initial(sem,1);
+	cobegin
+        for	x:=0 to (PROC-1) do
+        begin
+		    contentProcess[x](valorInicio[x], valorFinal[x], sem);
+        end;
+        contentProcess[PROC](valorInicio[PROC], valorFinal[PROC], sem);
+	coend;
+
+    writeln('El resultado final del producto escalar es: ', resultado);
+   
+end.
