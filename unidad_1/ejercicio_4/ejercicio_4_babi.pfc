@@ -1,0 +1,50 @@
+{
+	Crear un algoritmo que integerice el producto escalar de dos vectores de 10 elementos.
+}
+
+program ejercicio_4_babi;
+
+const LNG = 9;
+type 
+	vector = array [0..LNG] of integer;
+
+process type productoEscalar(inicio, fin: integer; v1, v2: vector; var suma_total: integer; var s: semaphore);
+var
+	pi:integer;
+    suma_parcial: integer;
+begin
+    pi:=inicio;
+    suma_parcial := 0;
+	while pi <= fin do
+    begin
+        suma_parcial := suma_parcial + (v1[pi] * v2[pi]);
+        pi:=pi+1;
+    end;
+    writeln('Suma de la pos ',inicio,' hasta ', fin, ' = ', suma_parcial);
+    wait(s);
+        suma_total:=suma_total + suma_parcial;
+    signal(s);
+end;
+
+var
+  total: integer;
+  p1, p2, p3 : productoEscalar;
+  sem: semaphore;
+  v1, v2: vector;
+  i: integer;
+
+begin
+    initial(sem, 1);
+    for i:= 0 to LNG do
+    begin
+        v1[i] := i * 2;
+        v2[i] := i * 3;
+        writeln(v1[i], ' = ' ,v2[i]);
+    end;
+	cobegin
+		p1(0,2,v1,v2,total,sem);
+        p2(3,6,v1,v2,total,sem);
+        p3(7,9,v1,v2,total,sem);
+	coend;
+    writeln('Suma total del producto escalar: ', total);
+end.
