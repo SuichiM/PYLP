@@ -2,37 +2,27 @@ program ejercicio2_Uriarte;
 
 process type par (i: integer);
 var
-	a: integer;
-	cant: integer;
+x:integer;
+	numInicial:integer;
 begin
-	i:= 1;
-	cant:= 0;
-	while cant <> a do
-	begin
-	  if (a mod 2) = 0 then
-	  begin
-	    write(' | ', a);
-	    cant:= cant + 1;
-	  end;
-	  a:= a + 1;
+	numInicial:=2;
+	for	x:=1 to i do
+	begin	
+		writeln('Numero par generado: ', numInicial);
+		numInicial:=numInicial+2;
 	end;
 end;
 
 process type impar (i: integer);
 var
-	a: integer;
-	cant: integer;
+x:integer;
+	numInicial:integer;
 begin
-	a:= 1;
-	cant:= 0;
-	while cant <> i do
-	begin
-	  if (a mod 2) <> 0 then
-	  begin
-	    write(' | ', a);
-	    cant:= cant + 1;
-	  end;
-	  a:= a + 1;
+	numInicial:=1;
+	for	x:=1 to i do
+	begin	
+		writeln('Numero impar generado: ', numInicial);
+		numInicial:=numInicial+2;
 	end;
 end;
 
