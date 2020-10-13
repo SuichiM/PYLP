@@ -1,0 +1,67 @@
+program ejercicio_4;
+const LNG = 9;
+const N = 5;
+type 
+	vector = array [0..LNG] of integer;
+
+var
+	i:integer;
+	calculo:integer;
+	v1, v2:vector;
+
+procedure cargarVectores;
+begin
+	for i := 0 to LNG do
+	begin
+		v1[i] := i ;
+		v2[i] := LNG - i ; 
+	end;
+
+	writeln('vector 1');
+	for i := 0 to LNG do
+	begin
+		write(v1[i], ' - ');
+	end;
+	writeln;
+	writeln;
+	writeln('vector 2');
+	for i := 0 to LNG do
+	begin
+		write(v2[i], ' - ');
+	end;
+	writeln;
+	writeln;
+end;
+
+process type productoEscalar(inicio, fin:integer; v1, v2 : vector; var s:semaphore);
+var
+    i, aux:integer;
+begin
+    wait(s);
+    aux:=0;
+    for i := inicio to fin do
+	begin
+        aux := v1[i] * v2[i];
+        calculo := calculo + aux;
+        writeln(v1[i],' * ',v2[i],' = ', aux);
+        aux:=0;
+	end;
+    signal(s);
+end;
+
+var
+  p1, p2:productoEscalar;
+  sem: semaphore; 
+begin
+
+	initial(sem,1);
+	calculo:=0;
+	cargarVectores;
+
+    cobegin
+        p1(0, 4, v1, v2, sem);
+        p2(5, 9, v1, v2, sem);
+    coend;
+
+   writeln('El producto escalar es: ',calculo);
+end.
