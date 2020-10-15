@@ -1,0 +1,27 @@
+PROGRAM gardens1; 
+  VAR 
+  count: integer;
+  
+  PROCESS type turnstile(var s:semaphore);
+  VAR
+  loop: integer;   
+  BEGIN
+    wait(s);
+    FOR loop:= 1 to 5 DO
+      count:=count+1;   
+    signal(s);  
+  END; 
+
+VAR
+sem:semaphore;
+turnstile1,turnstile2: turnstile;
+
+BEGIN 
+  initial(sem,1);
+  count:=0;   
+  COBEGIN
+    turnstile1(sem); 
+    turnstile2(sem);
+  COEND;
+  WRITELN('Total admitted: ' , count)(*output the result*)
+END.
