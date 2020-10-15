@@ -1,0 +1,86 @@
+program nrosParesImparesPrimos;
+
+(*EJERCICIO 2*)
+process type imprimirPares(id: integer; cant:integer; var s:semaphore);
+var
+	x:integer;
+	num:integer;
+begin
+    wait(s);
+	num:= 2;
+    writeln('Soy el proceso ', id,' y los números pares son: ' );
+	if id = 2 then
+		num:= num*cant+2; 
+	for	x:=1 to cant do
+	begin	   
+		writeln('Número: ',num);
+		num:=num+2;
+	end;
+    signal(s);
+end;
+
+process type imprimirImpares(id: integer; cant:integer; var s:semaphore);
+var	
+	x:integer;
+	num:integer;
+begin
+    wait(s);
+	num:=1;
+    writeln('Soy el proceso ', id,' y los números impares son: ' ); 
+	for	x:=1 to cant do
+	begin
+		writeln('Número: ',num);
+		num:=num+2;
+	end;
+    signal(s);	
+end;
+
+
+(*EJERCICIO 3*)
+
+process type imprimirPrimos(id: integer; inicio:integer; fin:integer; var s:semaphore);
+var
+	i,divisor,num :integer;
+begin
+  wait(s); 
+  writeln('Soy el proceso ', id);
+  writeln('y los números primos entre ', inicio,' y ',fin, ' son: ');
+	for	num:= inicio to fin do
+    begin
+      divisor:=0;
+      for i:=1 to num do      
+          if (num mod i = 0) then
+             divisor:=divisor+1; (*Cuenta la cantidad de divisores*)
+      if (divisor = 2) then (*Si tiene más de 2 divisores enteros no es primo*)
+        writeln(num); 
+     end;
+  signal(s);
+end;
+
+var
+  sem: semaphore;
+  p1Ej2,p2Ej2: imprimirPares; 
+  p3Ej2: imprimirImpares;
+  cPares:integer;
+  cImpares:integer;
+  p1Ej3,p2Ej3,p3Ej3,p4Ej3: imprimirPrimos; 
+  
+
+begin
+  initial(sem,1);
+  writeln('Ingrese la cantidad de números Pares a imprimir: ');
+  readln(cPares);
+  writeln('Ingrese la cantidad de números Impares a imprimir:');
+  readln(cImpares);
+  cobegin
+		p1Ej2(1, cPares, sem);
+		p2Ej2(2, cPares, sem);
+		p3Ej2(3, cImpares, sem);  
+	  p1Ej3(1,1,25,sem);
+    p2Ej3(2,26,50,sem);
+    p3Ej3(3,51,75,sem);
+    p4Ej3(4,76,100,sem);	
+  
+	coend;
+
+end.  
