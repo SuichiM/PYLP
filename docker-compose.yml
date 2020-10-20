@@ -29,4 +29,6 @@ services:
     volumes: 
       - ./unidad_6:/var/www/html
     ports: 
-      - 3002:80
+      - 5000:5000
+      - 9005:9005
+      - 3001:80
