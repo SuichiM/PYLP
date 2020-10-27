@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &size); // Obtenemos el numero de procesos en el comunicador global
     MPI_Comm_rank(MPI_COMM_WORLD, &rank); // Obtenemos la identificacion de nuestro proceso en el comunicador global
  
-    cout<<"¡Hola Mundo desde el proceso "<<rank<<" de "<<size<<" que somos!"<<endl;
+    cout<<"¡Hola Mundo soy el proceso numero: "<<rank<<", de "<<size<<" que somos!"<<endl;
  
     // Terminamos la ejecucion de los procesos, despues de esto solo existira
     // la hebra 0
