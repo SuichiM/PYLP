@@ -12,6 +12,12 @@ La API define únicamente el estándar que hay que seguir para poder utilizar la
 
 ## Funciones/Directivas
 
+Las directivas se basan en #pragma directivas definidas en los estándares de C y C++. Los compiladores que admiten la API de OpenMP C y C++ incluirán una opción de línea de comandos que active y permita la interpretación de todas las directivas de compilador de OpenMP.
+
+Cada directiva comienza con #pragma omp , para reducir la posibilidad de conflicto con otras directivas pragma (que no son de OpenMP o de proveedor a OpenMP) con los mismos nombres. El resto de la Directiva sigue las convenciones de los estándares de C y C++ para las directivas de compilador.
+
+`#pragma omp <directiva> [clausulas-comparticion]`
+
 |                                                                                                             |                                                                                                    |                                                                                                         |
 | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | [**pragma omp parallel**](https://lsi.ugr.es/jmantas/ppr/ayuda/omp_ayuda.php?ayuda=omp_directivas)          | [**pragma omp single**](https://lsi.ugr.es/jmantas/ppr/ayuda/omp_ayuda.php?ayuda=omp_directivas)   | [**pragma omp taskwait**](https://lsi.ugr.es/jmantas/ppr/ayuda/omp_ayuda.php?ayuda=omp_directivas)      |
