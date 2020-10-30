@@ -58,7 +58,7 @@ debemos usar la opcion `-fopenmp` para indicarle que es un archivo que usa `Open
 con la opcion `-o` le damos el nombre que queremos al ejecutable.
 
 ```sh
-mpicxx -fopenmp <archivo_fuente.cpp> -o <archivo_ejecutable>
+g++ -fopenmp <archivo_fuente.cpp> -o <archivo_ejecutable>
 ```
 
 ## Ejecutando los archivos
