@@ -32,13 +32,16 @@
   <body>
     <div class = "container">
       <h1>Agregar Usuarios</h1>
+      
       <div class="container-fluid my-3 form form-inline">
-      <input type="text" id="nombre" placeholder="nombre" class="form-control mr-3" >
-      <input type="text" id="apellido" placeholder="apellido" class="form-control mx-3">
-      <input type="text" id="fecha" placeholder="fecha" class="form-control mx-3">
-      <button class="btn btn-info" id="boton" onclick="guardar()">Guardar</button>
-      <!-- <button class="btn btn-info" id="boton" onclick="guardar()">Guardar</button> -->
-    </div>
+        <input type="text" id="nombre" placeholder="nombre" class="form-control mr-3" >
+        <input type="text" id="apellido" placeholder="apellido" class="form-control mx-3">
+        <input type="text" id="fecha" placeholder="fecha" class="form-control mx-3">
+        <button class="btn btn-info" id="boton" onclick="guardar()">Guardar</button>
+        <!-- <button class="btn btn-info" id="boton" onclick="guardar()">Guardar</button> -->
+        <div id="warning_msj"></div>
+      </div>
+      
       <table class="table" my-3>
         <thead>
           <tr>
@@ -80,7 +83,8 @@
             </div>
           </div>
         </div>
-        
+      </div>
+    
     </div>
     
     <!-- Optional JavaScript -->
@@ -89,8 +93,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     
-    <script type="module" src="services.js"></script>
-    <script type="module" src="app.js"></script>
+   <script type="module" src="app.js"></script>
   </body>
 </html>
 
