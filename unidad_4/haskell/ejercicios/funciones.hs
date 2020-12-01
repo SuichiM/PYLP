@@ -77,13 +77,33 @@ maximo (x:xs) = if (x < maximo(xs))
                 else x
 
 --15. Push el final
+push (num, []) = [num]
+push (num, x:xs) = x:push(num, xs)
 
-
-isMayor :: Integer -> Bool
-isMayor x = if x>=18 then True else False
-
+-- 16. Custom Filter 
 customFilter(f,[]) = []
 customFilter(f,x:xs) = if (f(x)==True)then 
                             x:customFilter(f,xs)
                         else
                             customFilter(f,xs)
+
+-- 17. CustomMap
+customMap (f,[]) = []
+customMap (f,x:xs) = f(x) : customMap(f, xs)
+
+-- 18. indexOf
+indexOf (num, []) = -1
+indexOf (num, x:xs) = indexOfAux(num, x:xs, 0)
+
+indexOfAux (num, [], index) = -1
+indexOfAux (num, x:xs, index) = if(num == x) then
+                                        index
+                                else
+                                        indexOfAux(num, xs, index + 1)
+
+-- 19. exists
+exists :: (Int, [Int]) -> Bool
+exists (a,[]) = False
+exists (a,x:xs) =   if (a == x)
+                    then True
+                    else exists(a,xs)
