@@ -5,7 +5,7 @@ int main()
 {
 
   int nthreads, thread;
-  int var = 777;
+  int var = 100;
   // establecemos la cantidad de hilos a lanzar
 
   omp_set_num_threads(5);
@@ -15,7 +15,7 @@ int main()
   // Si una variable global con un valor establecido se pasa mediante la clausula "private" a la sección paralela, se pierde el valor que tenia.
   // Para inicializar con el valor que tenia hay que usar la clausula "firstprivate"
 
-#pragma omp parallel private(nthreads, thread) firstprivate(new_var)
+#pragma omp parallel private(nthreads, thread) firstprivate(var)
   {
     thread = omp_get_thread_num();
 
