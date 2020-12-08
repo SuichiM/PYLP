@@ -98,8 +98,8 @@ customFilter(f, x:xs) = if (f(x) == True) then
 
 -- 17. customMap
 --customMap :: (f,[Integer]) -> [Integer]
-customMap(f, []) = []
-customMap(f, xs) = map(f(xs))
+customMap (f,[]) = []
+customMap (f,x:xs) = f(x) : customMap(f, xs)
 
 -- 18). indice
 indice (e, []) = -1
