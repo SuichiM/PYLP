@@ -1,12 +1,29 @@
+function isPar(x){
+  return x % 2 === 0
+}
 
-const sucesor = (n) => n + 1;
+function sucesor(n){
+  return n+1
+}
 
-const doble = function (n) {
-  n + n;
-};
+function doble(n) {
+  return n + n
+}
 
 
-exports = {
-  sucesor,
-  doble
+const isMayorEdad = function(edad){ 
+  if( edad  >= 18 )
+    return true
+  else 
+    return false
+}
+
+const persona1 = {
+  apellido: 'Perez',
+  nombre: 'Juan',
+  anio_nac: 1988,
+  edad: function(){
+    const currentYear = new Date().getFullYear()
+    return currentYear - this.anio_nac
+  }
 }
