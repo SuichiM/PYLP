@@ -1,5 +1,6 @@
 module Funciones where
 
+<<<<<<< HEAD
 {- Funciones Simples -}
 
 -- 1. Escribir una funcion que dado un entero devuelva el sucesor.
@@ -62,6 +63,18 @@ potencia (x,y) =  fromInteger(x) ** fromInteger(y)
 
 
 
+=======
+{- Funciones iniciales -}
+
+-- 1. sucesor
+sucesor :: Integer -> Integer
+sucesor x = x + 1
+
+pre :: Integer -> Integer
+pre x = x - 1 
+
+<<<<<<<< HEAD:unidad_4/haskell/ejercicios/funciones_sawczuk.hs
+>>>>>>> 50285f3501b1e18497e0077b6260c5cb6a8f8531
 
 {- Funciones de lista -}
 
@@ -117,4 +130,13 @@ exists :: (Int, [Int]) -> Bool
 exists (a,[]) = False
 exists (a,x:xs) =   if (a == x)
                     then True
+<<<<<<< HEAD
                     else exists(a,xs)
+=======
+                    else exists(a,xs)
+========
+-- 2. doble 
+doble :: Integer -> Integer
+doble x = x+x
+>>>>>>>> 50285f3501b1e18497e0077b6260c5cb6a8f8531:unidad_4/haskell/ejercicios/funciones.hs
+>>>>>>> 50285f3501b1e18497e0077b6260c5cb6a8f8531
