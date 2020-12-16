@@ -1,0 +1,42 @@
+program ejercicio_2_nacimiento;
+
+process type pairs(quantity: integer);
+var
+    i, number: integer;
+begin
+    number := 2;
+    for i := 1 to quantity do
+    begin
+        writeln('Par generado: ', number);
+        number := number + 2;
+    end;
+end;
+
+process type odd(quantity: integer);
+var
+    i, number: integer;
+begin
+    number := 1;
+    for i := 1 to quantity do
+    begin
+        writeln('Impar generado: ', number);
+        number := number + 2;
+    end;
+end;
+
+var
+    p1, p2: pairs;
+    p3: odd;
+    quantityPairs, quantityOdd: integer;
+begin
+    write('Ingrese la cantidad de numeros pares: ');
+	readln(quantityPairs);
+	write('Ingrese la cantidad de nros impares: ');
+	readln(quantityOdd);
+    writeln('------------GO----------');
+    cobegin
+        p1(quantityPairs);
+        p2(quantityPairs);
+        p3(quantityOdd);
+    coend;
+end.

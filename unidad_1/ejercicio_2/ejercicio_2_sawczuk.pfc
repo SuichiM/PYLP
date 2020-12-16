@@ -1,0 +1,44 @@
+program ejercicio_2;
+
+process type imprimirPares(cant: integer);
+var
+	i: integer;
+	num: integer;
+begin
+	num:=2;
+	for	i:=1 to cant do
+	begin	
+		writeln('Par: ',num);
+		num:=num+2;
+	end;
+end;
+
+process type imprimirImpares(cant: integer);
+var
+	i: integer;
+	num: integer;
+begin
+	num:=1;
+	for	i:=1 to cant do
+	begin	
+		writeln('Impar: ',num);
+		num:=num+2;
+	end;
+end;
+
+var	
+	p1, p2: imprimirPares;
+	p3: imprimirImpares;
+	x, y: integer;
+begin
+	writeln('ingrese X:');
+	readln(x);
+
+	writeln('ingrese Y:');
+	readln(y);
+	cobegin
+		p1(x);
+		p2(x);
+		p3(y);
+	coend;
+end.

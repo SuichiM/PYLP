@@ -1,0 +1,76 @@
+program ej4;
+const N = 6;
+const THREADS = 3;
+type 
+	vector = array [0..N] of integer;
+var
+    resultado, ini:integer;
+    sem:semaphore;
+    v1,v2:vector;
+
+process type pointProduct(var v1:vector; var v2:vector; inicio:integer; fin:integer; id:integer; var s:semaphore);
+var
+    i:integer;
+begin
+    for i := inicio to fin  do
+    begin
+        wait(s);
+        writeln('Proceso n', id, ': ', v1[i], '*', v2[i], ' = ', v1[i]*v2[i]);
+        resultado:= resultado + (v1[i]*v2[i]);
+        signal(s);
+    end;
+end;
+
+procedure cargarVector(VAR v1:vector);
+var
+    i:integer;    
+begin
+    for  i := 1 to N do
+    begin
+        v1[i] := random(10);
+    end;    
+end;
+
+procedure imprimirVector(v1:vector);
+var
+    i:integer;
+begin
+    write('(');
+    for i:=1 to N-1 do
+    begin
+        write(v1[i], ' ')
+    end;
+    write(v1[N],')');
+end;
+
+var
+    procesos:array[0..THREADS] of pointProduct;
+    i,sliceN:integer;
+begin
+    randomize;
+    initial(sem,1);
+
+    {Carga de Arrays}
+    cargarVector(v1);
+    cargarVector(v2);
+
+    {Impresion de Arrays}
+    write('Vector 1: ');
+    imprimirVector(v1);
+    writeln;
+    write('Vector 2: ');
+    imprimirVector(v2);
+    writeln;
+
+    {Descomposicion de Dominio}
+    sliceN := N div THREADS;   
+    cobegin
+        ini := 1;
+        for i := 1 to THREADS do
+        begin
+            procesos[i](v1,v2,ini,ini+sliceN-1, i, sem);
+            ini:=ini+sliceN;
+        end;        
+    coend;
+    writeln('Resultado de producto escalar: ', resultado);
+end.

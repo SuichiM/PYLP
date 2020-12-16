@@ -1,0 +1,45 @@
+program ejercicio2_Uriarte;
+
+process type par (i: integer);
+var
+x:integer;
+	numInicial:integer;
+begin
+	numInicial:=2;
+	for	x:=1 to i do
+	begin	
+		writeln('Numero par generado: ', numInicial);
+		numInicial:=numInicial+2;
+	end;
+end;
+
+process type impar (i: integer);
+var
+x:integer;
+	numInicial:integer;
+begin
+	numInicial:=1;
+	for	x:=1 to i do
+	begin	
+		writeln('Numero impar generado: ', numInicial);
+		numInicial:=numInicial+2;
+	end;
+end;
+
+var
+	proc1 , proc2 : par;
+	proc3 : impar;
+	Xpar : integer;
+	Yimpar : integer;
+
+begin
+
+	Xpar := 2;
+	Yimpar := 4;
+
+	cobegin
+		proc1 (Xpar);
+		proc2 (Xpar);
+		proc3 (Yimpar);
+	coend;
+end. 

@@ -1,0 +1,48 @@
+program ejercicio_3_kachuka;
+
+process type calcNumPrimo(inicio:integer; fin:integer; var s:semaphore);
+var
+    i,j: integer;
+    primo:boolean;
+begin
+    if inicio<2 then
+    begin
+        inicio:=2;
+    end;
+    i:=inicio;
+    while i<=fin do
+    begin
+        j:=2;
+        primo:=True;       
+        while ((j <= (i-1)) and primo) do
+        begin            
+            if i mod j = 0 then
+            begin
+                primo:=False;
+            end;
+            j:=j+1;            
+        end;
+        
+        if primo then
+        begin
+            wait(s);
+            writeln(i);
+            signal(s);
+        end;        
+        i:=i+1;
+    end;
+end;
+
+var
+p1,p2,p3,p4:calcNumPrimo;
+sem:semaphore;
+
+begin
+    initial(sem,1);
+    cobegin
+        p1(1,25, sem);
+        p2(26,50, sem);
+        p3(51,75, sem);
+        p4(76,100, sem);  
+    coend;
+end.

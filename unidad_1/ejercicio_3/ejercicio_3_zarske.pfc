@@ -1,0 +1,62 @@
+program ejercicio_3_zarske;
+
+process type primos(inicio:integer; final:integer; num:integer);
+var
+    x:integer;
+    i, max : integer;
+    primo : boolean;
+begin
+	for	x:=inicio to final do
+	begin
+        primo:=true;	
+		max:=trunc(sqrt(x));
+        for I:=2 to Max do
+        begin
+            if x mod i = 0 then
+            begin
+                primo:=false;
+            end;
+        end;
+        if primo and (x <> 1) then
+        begin
+            Writeln('Proceso ', num, ' encontro un primo ->  ',x);
+        end;
+	end;
+end;
+
+
+var
+  contentProcess:array[0..100] of primos;
+  cantProcess: integer;
+  cantPrimos: integer;
+  cantPrimosxP: integer;
+  inicioPrimos: integer;
+  valorInicio: array[0..100] of integer;
+  valorFinal: array[0..100] of integer;
+  x:integer;
+
+
+begin
+    cantPrimos:= 100;
+    cantProcess:= 4;
+    inicioPrimos:= 1;
+    cantPrimosxP:= cantPrimos div cantProcess;
+
+    valorInicio[0]:= inicioPrimos;
+    valorFinal[0]:= valorInicio[0] + cantPrimosxP -1;
+
+    for	x:=1 to (cantProcess - 1) do
+    begin
+        valorInicio[x]:= valorFinal[x-1] + 1;
+        valorFinal[x]:= valorInicio[x] + cantPrimosxP -1;
+    end;
+    valorFinal[cantProcess - 1]:= cantPrimos;
+
+	cobegin
+        for	x:=0 to (cantProcess - 1) do
+        begin
+		    contentProcess[x](valorInicio[x], valorFinal[x], x);
+        end;
+	coend;
+   
+end.

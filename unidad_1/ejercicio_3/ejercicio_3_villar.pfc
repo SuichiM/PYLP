@@ -1,0 +1,47 @@
+program ej3;
+process type numPrimos(ini:integer; fin:integer; var s:semaphore);
+var
+    i,j: integer;
+    prime:boolean;
+begin
+    if ini<2 then
+    begin
+        ini:=2;
+    end;
+    i:=ini;
+    while i<=fin do
+    begin
+        j:=2;
+        prime:=True;       
+        while ((j <= (i-1)) and prime) do
+        begin            
+            if i mod j = 0 then
+            begin
+                prime:=False;
+            end;
+            j:=j+1;            
+        end;
+        
+        if prime then
+        begin
+            wait(s);
+            writeln(i);
+            signal(s);
+        end;        
+        i:=i+1;
+    end;
+end;
+
+var
+p1,p2,p3,p4:numPrimos;
+sem:semaphore;
+
+begin
+    initial(sem,1);
+    cobegin
+        p1(1,25, sem);
+        p2(26,50, sem);
+        p3(51,75, sem);
+        p4(76,100, sem);  
+    coend;
+end.

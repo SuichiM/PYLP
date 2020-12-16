@@ -1,0 +1,44 @@
+program ejercicio_3_SilveiraDoSanto;
+
+process type calcNumPrimo(id:integer; inicio:integer; fin:integer; var s:semaphore);
+var
+    divisor: integer;
+    primo:boolean;
+begin
+
+    while inicio<=fin do
+    begin
+        divisor:=2;
+        primo:=True;       
+        while ((divisor < inicio) and primo) do
+        begin            
+            if inicio mod divisor = 0 then
+            begin
+                primo:=False;
+            end;
+            divisor:=divisor+1;            
+        end;
+
+        if primo then
+        begin
+            wait(s);
+            Writeln ('soy el proceso', ' ', id, ' ', 'localice el numero primo ->', ' ', inicio);
+            signal(s);
+        end;        
+        inicio:=inicio+1;
+    end;
+end;
+
+var
+p1,p2,p3,p4:calcNumPrimo;
+sem:semaphore;
+
+begin
+    initial(sem,1);
+    cobegin
+        p1(1,1,25, sem);
+        p2(2,26,50, sem);
+        p3(3,51,75, sem);
+        p4(4,76,100, sem);  
+    coend;
+end. 

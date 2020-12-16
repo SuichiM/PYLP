@@ -1,0 +1,66 @@
+program ejercicio_4_silveiraDoSanto ;
+const LNG = 9 ;
+type
+    vector = array [0..LNG] of integer ;
+
+var
+    v1,v2 : vector ;
+    resultado : integer ;
+
+procedure carga;
+var
+    i: integer;
+begin
+    for i := 0 to LNG do
+    begin
+        v1[i] := i;
+        v2[i] := LNG - i;
+    end;
+
+    writeln('---- VECTOR 1 ----');
+    for i := 0 to LNG do
+    begin
+        write(v1[i], ' - ');
+    end;
+
+    writeln;
+    writeln;
+
+    writeln('---- VECTOR 2 ----');
+    for i := 0 to LNG do
+    begin
+        write(v2[i], ' - ');
+    end;
+
+    writeln;
+    writeln;
+end;
+
+process type productoEscalar(inicioRango: integer; finRango: integer; var s : semaphore);
+var
+    producto , i: integer;
+begin
+    for i := inicioRango to finRango do
+    begin
+        producto := v1[i] * v2[i] ;
+        wait(s) ;
+        resultado := resultado + producto ;
+        writeln(v1[i], ' * ', v2[i], ' = ' , producto);
+        signal(s); 
+    end;
+end;
+
+var
+    p1, p2: productoEscalar;
+    sem : semaphore ;
+
+begin
+    initial(sem, 1);
+    resultado := 0 ;
+    carga;
+    cobegin
+        p1(0,4,sem);
+        p2(5,9,sem);
+    coend;
+    writeln('El producto escalar es: ', resultado);
+end.

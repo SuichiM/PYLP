@@ -1,0 +1,44 @@
+program ejercicio_2_kachuka;
+
+process type imprimirNumeroPar (cant: integer);
+var
+    i: integer ;
+    aux: integer;
+begin
+    aux := 2;
+    for i := 0 to cant do
+    begin
+        writeln('Numero par: ', aux);
+        aux := aux + 2 ;
+    end;
+end;
+process type imprimirNumeroImpar (cant: integer);
+var
+    i: integer ;
+    aux: integer;
+begin
+    aux := 1 ;
+    for i := 0 to cant do
+    begin
+        writeln('Numero impar: ', aux);
+        aux := aux + 2 ;
+    end;
+end;
+
+var
+    p1, p2 : imprimirNumeroPar ;
+    p3 : imprimirNumeroImpar ;
+    cantPares : integer ;
+    cantImpares: integer;
+
+begin
+    writeln('Ingrese la cantidad de numeros pares a generar: ');
+    readln(cantPares);
+    writeln('Ingrese la cantidad de numeros impares a generar: ');
+    readln(cantImpares);
+    cobegin
+        p1(cantPares);
+        p2(cantPares);
+        p3(cantImpares);
+    coend;
+end.

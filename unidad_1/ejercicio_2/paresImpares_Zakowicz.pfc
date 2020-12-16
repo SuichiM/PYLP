@@ -1,0 +1,61 @@
+(*El programa ejecuta 3 procesos,
+* de los cuales 2 imprimen (x) números pares
+* y 1 imprime (y) números impares. 
+* Se utiliza semáforos para la sincronización de los procesos.*)
+
+program nrosParesImpares;
+
+process type imprimirPares(id: integer; cant:integer; var s:semaphore);
+var
+	x:integer;
+	num:integer;
+begin
+    wait(s);
+	num:= 2;
+    writeln('Soy el proceso: ', id,' y los números pares son: ' );
+	if id = 2 then
+		num:= num*cant+2; 
+	for	x:=1 to cant do
+	begin	   
+		writeln('Número: ',num);
+		num:=num+2;
+	end;
+    signal(s);
+end;
+
+process type imprimirImpares(id: integer; cant:integer; var s:semaphore);
+var	
+	x:integer;
+	num:integer;
+begin
+    wait(s);
+	num:=1;
+    writeln('Soy el proceso: ', id,' y los números impares son: ' ); 
+	for	x:=1 to cant do
+	begin
+		writeln('Número: ',num);
+		num:=num+2;
+	end;
+    signal(s);	
+end;
+
+var
+  p1,p2: imprimirPares; 
+  p3: imprimirImpares;
+  cPares:integer;
+  cImpares:integer;
+  sem: semaphore;
+	
+begin
+    initial (sem, 1);
+	writeln('Ingrese la cantidad de números Pares a imprimir: ');
+	readln(cPares);
+	writeln('Ingrese la cantidad de números Impares a imprimir:');
+	readln(cImpares);
+	cobegin
+		p1(1, cPares, sem);
+		p2(2, cPares, sem);
+		p3(3, cImpares, sem);
+	coend;
+   
+end.

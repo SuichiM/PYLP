@@ -1,0 +1,14 @@
+program ejercicio_1;
+process type print (id : integer);
+begin
+	write(id);
+end;
+var
+	p1, p2 : print;
+
+begin
+	cobegin
+		p1(1);
+		p2(2);	
+	coend;
+end.

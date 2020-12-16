@@ -1,0 +1,57 @@
+program ejercicio_3_nacimiento;
+
+process type primeCalculator(a: integer; b: integer; id: integer; var sem: semaphore);
+var
+    isPrime: boolean;
+    rest: integer;
+    i, j, number: integer;
+begin
+    for i := a to b do
+    begin
+        number := i;
+        isPrime := true;
+
+        for j := 2 to number - 1 do
+        begin
+            rest := number mod j;
+            if (rest = 0) then
+            begin
+                isPrime := false;
+            end;
+        end;
+        if (isPrime and (number > 1)) then
+        begin
+            wait(sem);
+            writeln('Proceso: ', id, ' encontro este primo -->  ', number);
+            signal(sem);
+        end;
+    end;
+end;
+
+var
+    p: array[0..100] of primeCalculator;
+    quantityProcess, quantityNumbers, slice, x, y, i: integer;
+    sem: semaphore;
+begin
+    write('Ingrese la cantidad de procesos: ');
+    readln(quantityProcess);
+    
+    quantityNumbers := 100;
+    slice := quantityNumbers div quantityProcess;
+    x := 0;
+    y := slice;
+
+    initial(sem,1);
+    cobegin
+        for i := 0 to quantityProcess - 1 do
+        begin
+            p[i](x, y, i + 1, sem);
+            x := x + slice;
+            y := y + slice;
+        end;
+        if (x <> 100) then
+        begin
+            p[100](x, quantityNumbers, i + 1, sem);
+        end;
+    coend;
+end.

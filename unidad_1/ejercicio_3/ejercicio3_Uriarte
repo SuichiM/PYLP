@@ -1,0 +1,57 @@
+program ejercicio3_Uriarte;
+
+process type primos(a: integer; b: integer; id: integer; var semaforo: semaphore);
+var
+    esPrimo: boolean;
+    resto: integer;
+    i, j, numero: integer;
+begin
+    for i := a to b do
+    begin
+        numero := i;
+        esPrimo := true;
+
+        for j := 2 to numero - 1 do
+        begin
+            resto := numero mod j;
+            if (resto = 0) then
+            begin
+                esPrimo := false;
+            end;
+        end;
+        if (esPrimo and (numero > 1)) then
+        begin
+            wait(semaforo);
+            writeln('El proceso n°: ', id, ' encontro este numero primo:  ', numero);
+            signal(semaforo);
+        end;
+    end;
+end;
+
+var
+    p: array[0..100] of primos;
+    cantProcesos, cantNumeros, slice, x, y, i: integer;
+    semaforo: semaphore;
+begin
+    write('Ingrese la cantidad de procesos: ');
+    readln(cantProcesos);
+
+    cantNumeros := 100;
+    slice := cantNumeros div cantProcesos;
+    x := 0;
+    y := slice;
+
+    initial(semaforo,1);
+    cobegin
+        for i := 0 to cantProcesos - 1 do
+        begin
+            p[i](x, y, i + 1, semaforo);
+            x := x + slice;
+            y := y + slice;
+        end;
+        if (x <> 100) then
+        begin
+            p[100](x, cantNumeros, i + 1, semaforo);
+        end;
+    coend;
+end. 

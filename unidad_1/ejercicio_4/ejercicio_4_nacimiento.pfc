@@ -1,0 +1,78 @@
+program ejercicio_4_nacimiento;
+
+const ARRAY_LENGHT = 10;
+const QUANTITY_PROCESS = 3;
+
+type
+    vector = array [0..ARRAY_LENGHT] of integer;
+
+var
+    i, result: integer;
+    v1, v2: vector;
+
+procedure loadVectors;
+begin
+    for i := 0 to ARRAY_LENGHT do
+    begin
+        v1[i] := i;
+        v2[i] := ARRAY_LENGHT - i;
+    end;
+
+    writeln('---- VECTOR 1 ----');
+    for i := 0 to ARRAY_LENGHT do
+    begin
+        write(v1[i], ' - ');
+    end;
+
+    writeln;
+    writeln;
+
+    writeln('---- VECTOR 2 ----');
+    for i := 0 to ARRAY_LENGHT do
+    begin
+        write(v2[i], ' - ');
+    end;
+    
+    writeln;
+    writeln;
+end;
+
+process type scalarProduct(a: integer; b: integer; var s: semaphore);
+var
+    j, local: integer;
+begin
+    for j := a to b do
+    begin
+        local := v1[j] * v2[j];
+        wait(s);
+        result := result + local;
+        writeln('rango[', a, ',', b,']  -  ','j=',j,'  - (', v1[j], '*', v2[j], ')=', local, ' + ');
+        signal(s);
+    end;
+end;
+
+var
+    p: array[0..ARRAY_LENGHT] of scalarProduct;
+    slice, x, y: integer;
+    s: semaphore;
+begin
+    initial(s, 1);
+    loadVectors;
+    slice := ARRAY_LENGHT div QUANTITY_PROCESS;
+    slice := slice - 1;
+    x := 0;
+    y := slice;
+    cobegin
+        for i := 0 to QUANTITY_PROCESS - 1 do
+        begin
+            p[i](x, y, s);
+            x := x + slice + 1;
+            y := x + slice;
+        end;
+        if (x <> ARRAY_LENGHT) then
+        begin
+            p[ARRAY_LENGHT](x, ARRAY_LENGHT, s);
+        end;
+    coend;
+    writeln('El producto final es: ', result);
+end.

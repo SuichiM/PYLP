@@ -1,0 +1,53 @@
+{
+	Crear un algoritmo que calcule todos los números primos entre 1 y 100. 
+	(distribuir los datos para que cada proceso tome el mismo número de elementos) 
+}
+
+program ejercicio_3_babi;
+
+function esPrimo(numero:integer):boolean;
+var
+	i:integer;
+	primo:boolean;
+begin
+	i := 2;
+	primo := true;
+	while (i < (numero/2)) AND primo = true do
+	begin
+		if (numero mod i) = 0 then
+			primo := false;
+		i:=i+1;
+	end;
+	if primo then
+		esPrimo:=true
+	else
+		esPrimo:=false;
+end;
+
+process type mostrarPrimos(inicio:integer; cantidad:integer);
+var
+	i:integer;
+	final:integer;
+begin
+	i:=inicio;
+	final := inicio + cantidad;
+	while i < final do
+	begin
+		if esPrimo(i) then
+		begin
+			writeln(i);
+		end;
+		i:=i+1;
+	end;
+end;
+
+var
+  p1, p2, p3, p4 : mostrarPrimos;
+begin
+	cobegin
+		p1(1,25);
+		p2(25,25);
+		p3(50,25);
+		p4(75,25);
+	coend;   
+end.

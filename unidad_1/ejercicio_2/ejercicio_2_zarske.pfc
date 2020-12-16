@@ -1,0 +1,45 @@
+program ejercicio_2_zarske;
+
+process type pares (cant: integer);
+var
+	aux: integer;
+	inicio: integer;
+begin
+	inicio:= 2;
+	for aux:=1 to cant do
+	begin
+		write(' | ', inicio);
+		inicio := inicio + 2;
+	end;
+end;
+
+process type impares (cant: integer);
+var
+	aux: integer;
+	inicio: integer;
+begin
+	inicio:= 1;
+	for aux:=1 to cant do
+	begin
+		write(' | ', inicio);
+		inicio := inicio + 2;
+	end;
+end;
+
+var
+	p1 , p2 : pares;
+	p3 : impares;
+	Xpares : integer;
+	Yimpares : integer;
+
+begin
+
+	Xpares := 5;
+	Yimpares := 8;
+
+	cobegin
+		p1 (Xpares);
+		p2 (Xpares);
+		p3 (Yimpares);
+	coend;
+end.

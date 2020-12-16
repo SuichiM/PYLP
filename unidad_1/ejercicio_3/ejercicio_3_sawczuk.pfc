@@ -1,0 +1,39 @@
+program ejercicio_3;
+
+process type imprimirPrimo(min:integer; max:integer);
+var
+    i, j, CONT: integer;
+begin
+    CONT:=0;
+    for i:=min to max do
+    begin
+        for j:=1 to i do
+        begin
+            if (i mod j=0) then
+            begin
+                CONT:=CONT+1;
+            end;
+        end;
+        if (CONT=2) or (CONT=1) then
+        begin
+            if i<>1 then
+            begin
+                writeln (i);
+            end;
+        end;
+        CONT:=0;
+    end;
+end;
+
+var 
+    p1, p2, p3, p4, p5: imprimirPrimo;
+begin
+
+    cobegin
+        p1(1,20);
+        p2(21,40);
+        p3(41,60);
+        p4(61,80);
+        p5(81,100);
+    coend;
+end.
